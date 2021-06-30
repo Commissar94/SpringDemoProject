@@ -1,4 +1,4 @@
-package Entities;
+package com.example.springdemoproject.entities;
 
 import javax.persistence.*;
 

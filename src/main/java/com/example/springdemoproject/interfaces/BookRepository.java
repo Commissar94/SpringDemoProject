@@ -1,6 +1,6 @@
-package Interfaces;
+package com.example.springdemoproject.interfaces;
 
-import Entities.Book;
+import com.example.springdemoproject.entities.Book;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
