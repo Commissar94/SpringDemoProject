@@ -1,80 +1,40 @@
 package com.example.springdemoproject.controllers;
 
-import com.example.springdemoproject.entities.Pupil;
-import com.example.springdemoproject.interfaces.PupilInterface;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.springdemoproject.dto.PupilData;
+import com.example.springdemoproject.service.PupilService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/api/pupils")
-public class PupilController implements PupilInterface {
+public class PupilController {
 
-    SessionFactory factory = new Configuration()
-            .configure("hibernate.cfg.xml")
-            .addAnnotatedClass(Pupil.class)
-            .buildSessionFactory();
+    @Resource(name = "pupilService")
+    private PupilService pupilService;
 
+    @GetMapping({"/{id}"})
+    public PupilData getPupilsById(@PathVariable Long id) {
+        return pupilService.getPupilById(id);
+    }
 
     @PostMapping
-    @Override
-    public Pupil create(Pupil pupil) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public PupilData createPupil(@RequestBody PupilData pupilData) {
+        return pupilService.createPupil(pupilData);
+    }
 
-        Session session = factory.getCurrentSession();
-        session.beginTransaction();
-        session.save(pupil);
-        long pupilFromDbId = pupil.getId();
-        Pupil pupilFromDb = session.get(Pupil.class, pupilFromDbId);
-        session.getTransaction().commit();
 
-        return pupilFromDb;
+    @DeleteMapping
+   public void deletePupil(@RequestParam(value = "id") long id){
+        pupilService.deletePupil(id);
     }
 
     @PutMapping
-    @Override
-    public Pupil update(Pupil pupil) {
-
-        Session session = factory.getCurrentSession();
-        session.beginTransaction();
-        Query query = session.createQuery("update Pupil set name = :nameParam, " +
-                "schoolClass = :classParam" +
-                " where id = :idParam");
-        query.setParameter("idParam", pupil.getId());
-        query.setParameter("nameParam", pupil.getName());
-        query.setParameter("classParam", pupil.getSchoolClass());
-        query.executeUpdate();
-        long pupilFromDbId = pupil.getId();
-        Pupil pupilFromDb = session.get(Pupil.class, pupilFromDbId);
-        session.getTransaction().commit();
-
-        return pupilFromDb;
-    }
-
-    @DeleteMapping("/{id}")
-    @Override
-    public Pupil delete(@PathVariable long id) {
-
-        Session session = factory.getCurrentSession();
-        session.beginTransaction();
-        Pupil pupilFromDb = session.get(Pupil.class, id);
-        session.delete(pupilFromDb);
-        session.getTransaction().commit();
-
-        return pupilFromDb;
-    }
-
-    @GetMapping("/{id}")
-    @Override
-    public Pupil getById(@PathVariable long id) {
-
-        Session session = factory.getCurrentSession();
-        session.beginTransaction();
-        Pupil pupilFromDb = session.get(Pupil.class, id);
-        session.getTransaction().commit();
-
-        return pupilFromDb;
+    public PupilData updatePupil(@RequestBody PupilData pupilData, @RequestParam(value = "id") long id) throws Exception {
+        return pupilService.updatePupil(pupilData,id);
     }
 }
+
+

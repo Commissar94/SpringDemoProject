@@ -2,12 +2,12 @@ package com.example.springdemoproject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@EnableJpaRepositories("com.example.springdemoproject")
-@EntityScan("com.example.springdemoproject.entities")
+//@EnableJpaRepositories("com.example.springdemoproject")
+//@EntityScan("com.example.springdemoproject.entities")
 @SpringBootApplication
+@EnableJpaAuditing
 public class SpringDemoProjectApplication {
 
     public static void main(String[] args) {

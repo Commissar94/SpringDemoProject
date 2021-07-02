@@ -1,7 +1,7 @@
 package com.example.springdemoproject.controllers;
 
-import com.example.springdemoproject.entities.Book;
-import com.example.springdemoproject.interfaces.BookRepository;
+import com.example.springdemoproject.data.Book;
+import com.example.springdemoproject.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
