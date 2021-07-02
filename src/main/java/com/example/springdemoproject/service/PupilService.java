@@ -1,6 +1,5 @@
 package com.example.springdemoproject.service;
 
-import com.example.springdemoproject.data.Pupil;
 import com.example.springdemoproject.dto.PupilData;
 
 public interface PupilService {

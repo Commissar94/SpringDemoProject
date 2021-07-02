@@ -18,6 +18,7 @@ public class DefaultPupilService implements PupilService {
     @Override
     public PupilData createPupil(PupilData pupil) {
         Pupil pupilModel = populatePupilEntity(pupil);
+
         return populatePupilData(pupilRepository.save(pupilModel));
     }
 
@@ -26,12 +27,14 @@ public class DefaultPupilService implements PupilService {
         Pupil pupilModel = populatePupilEntity(pupil);
         pupilModel.setId(id);
         pupilRepository.findById(id).orElseThrow(()-> new Exception("No pupils with this id"));
+
         return populatePupilData(pupilRepository.save(pupilModel));
     }
 
     @Override
     public boolean deletePupil(long pupilId) {
         pupilRepository.deleteById(pupilId);
+
         return true;
     }
 
@@ -45,6 +48,7 @@ public class DefaultPupilService implements PupilService {
         pupilData.setId(pupil.getId());
         pupilData.setName(pupil.getName());
         pupilData.setSchoolClass(pupil.getSchoolClass());
+
         return pupilData;
     }
 
@@ -52,6 +56,7 @@ public class DefaultPupilService implements PupilService {
         Pupil pupil = new Pupil();
         pupil.setName(pupilData.getName());
         pupil.setSchoolClass(pupilData.getSchoolClass());
+
         return pupil;
     }
 }

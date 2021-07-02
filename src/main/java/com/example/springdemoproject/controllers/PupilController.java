@@ -14,10 +14,18 @@ public class PupilController {
     @Resource(name = "pupilService")
     private PupilService pupilService;
 
+    /**
+     * Method to get the pupil.
+     */
+
     @GetMapping({"/{id}"})
     public PupilData getPupilsById(@PathVariable Long id) {
         return pupilService.getPupilById(id);
     }
+
+    /**
+     * Method to create new pupil.
+     */
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -25,11 +33,18 @@ public class PupilController {
         return pupilService.createPupil(pupilData);
     }
 
+    /**
+     * Method to delete the pupil.
+     */
 
     @DeleteMapping
    public void deletePupil(@RequestParam(value = "id") long id){
         pupilService.deletePupil(id);
     }
+
+    /**
+     * Method to update the pupil.
+     */
 
     @PutMapping
     public PupilData updatePupil(@RequestBody PupilData pupilData, @RequestParam(value = "id") long id) throws Exception {

@@ -1,79 +1,55 @@
-//package com.example.springdemoproject.controllers;
-//
-//import com.example.springdemoproject.data.Teacher;
-//import com.example.springdemoproject.service.TeacherInterface;
-//import org.hibernate.Session;
-//import org.hibernate.SessionFactory;
-//import org.hibernate.cfg.Configuration;
-//import org.hibernate.query.Query;
-//import org.springframework.web.bind.annotation.*;
-//
-//@RestController
-//@RequestMapping("/api/teachers")
-//public class TeacherController implements TeacherInterface {
-//
-//    SessionFactory factory = new Configuration()
-//            .configure("hibernate.cfg.xml")
-//            .addAnnotatedClass(Teacher.class)
-//            .buildSessionFactory();
-//
-//    @PostMapping
-//    @Override
-//    public Teacher create(Teacher teacher) {
-//
-//        Session session = factory.getCurrentSession();
-//        session.beginTransaction();
-//        session.save(teacher);
-//        long teacherFromDbId = teacher.getId();
-//        Teacher teacherFromDb = session.get(Teacher.class, teacherFromDbId);
-//        session.getTransaction().commit();
-//
-//        return teacherFromDb;
-//    }
-//
-//    @PutMapping
-//    @Override
-//    public Teacher update(Teacher teacher) {
-//
-//        Session session = factory.getCurrentSession();
-//        session.beginTransaction();
-//        Query query = session.createQuery("update Teacher set name = :nameParam, " +
-//                "specialization = :specParam, " + "schoolClass = :classParam " +
-//                " where id = :idParam");
-//        query.setParameter("idParam", teacher.getId());
-//        query.setParameter("nameParam", teacher.getName());
-//        query.setParameter("specParam", teacher.getSpecialization());
-//        query.setParameter("classParam", teacher.getSchoolClass());
-//        query.executeUpdate();
-//        long teacherFromDbId = teacher.getId();
-//        Teacher teacherFromDb = session.get(Teacher.class, teacherFromDbId);
-//        session.getTransaction().commit();
-//
-//        return teacherFromDb;
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    @Override
-//    public Teacher delete(@PathVariable long id) {
-//
-//        Session session = factory.getCurrentSession();
-//        session.beginTransaction();
-//        Teacher teacherFromDb = session.get(Teacher.class, id);
-//        session.delete(teacherFromDb);
-//        session.getTransaction().commit();
-//
-//        return teacherFromDb;
-//    }
-//
-//    @GetMapping("/{id}")
-//    @Override
-//    public Teacher getById(@PathVariable long id) {
-//
-//        Session session = factory.getCurrentSession();
-//        session.beginTransaction();
-//        Teacher teacherFromDb = session.get(Teacher.class, id);
-//        session.getTransaction().commit();
-//
-//        return teacherFromDb;
-//    }
-//}
+package com.example.springdemoproject.controllers;
+
+import com.example.springdemoproject.dto.PupilData;
+import com.example.springdemoproject.dto.TeacherData;
+import com.example.springdemoproject.service.PupilService;
+import com.example.springdemoproject.service.TeacherService;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+
+@RestController
+@RequestMapping("/api/teachers")
+public class TeacherController {
+
+    @Resource(name = "teacherService")
+    private TeacherService teacherService;
+
+    /**
+     * Method to get the teacher.
+     */
+
+    @GetMapping({"/{id}"})
+    public TeacherData getTeachersById(@PathVariable Long id) {
+        return teacherService.getTeacherById(id);
+    }
+
+    /**
+     * Method to create new teacher.
+     */
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public TeacherData createTeacher(@RequestBody TeacherData teacherData) {
+        return teacherService.createTeacher(teacherData);
+    }
+
+    /**
+     * Method to delete the teacher.
+     */
+
+    @DeleteMapping
+    public void deleteTeacher(@RequestParam(value = "id") long id) {
+        teacherService.deleteTeacher(id);
+    }
+
+    /**
+     * Method to update the teacher.
+     */
+
+    @PutMapping
+    public TeacherData updateTeacher(@RequestBody TeacherData teacherData, @RequestParam(value = "id") long id) throws Exception {
+        return teacherService.updateTeacher(teacherData, id);
+    }
+}
