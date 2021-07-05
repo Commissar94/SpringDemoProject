@@ -46,7 +46,6 @@ public class DefaultTeacherService implements TeacherService {
         TeacherData teacherData = new TeacherData();
         teacherData.setId(teacher.getId());
         teacherData.setName(teacher.getName());
-        teacherData.setSchoolClass(teacher.getSchoolClass());
         teacherData.setSpecialization(teacher.getSpecialization());
 
         return teacherData;
@@ -55,7 +54,6 @@ public class DefaultTeacherService implements TeacherService {
     private Teacher populateTeacherEntity(TeacherData teacherData) {
         Teacher teacher = new Teacher();
         teacher.setName(teacherData.getName());
-        teacher.setSchoolClass(teacherData.getSchoolClass());
         teacher.setSpecialization(teacherData.getSpecialization());
 
         return teacher;

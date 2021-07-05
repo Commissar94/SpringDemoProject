@@ -1,6 +1,10 @@
 package com.example.springdemoproject.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "pupils")
@@ -14,18 +18,18 @@ public class Pupil {
     @Column(name = "Name")
     private String name;
 
-    @Column(name = "Class")
-    private String schoolClass;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "pupilsInClassRoom")
+    private Set<ClassRoom> classRooms = new HashSet<>();
 
-    public Pupil(String name, String schoolClass) {
+
+    public Pupil(String name) {
         this.name = name;
-        this.schoolClass = schoolClass;
     }
 
-    public Pupil(Long id, String name, String schoolClass) {
+    public Pupil(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.schoolClass = schoolClass;
     }
 
     public Pupil() {
@@ -48,12 +52,12 @@ public class Pupil {
         this.name = name;
     }
 
-    public String getSchoolClass() {
-        return schoolClass;
+    public Set<ClassRoom> getClassRooms() {
+        return classRooms;
     }
 
-    public void setSchoolClass(String schoolClass) {
-        this.schoolClass = schoolClass;
+    public void setClassRooms(Set<ClassRoom> classRooms) {
+        this.classRooms = classRooms;
     }
 
     @Override
@@ -61,7 +65,6 @@ public class Pupil {
         return "Pupil{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", schoolClass='" + schoolClass + '\'' +
                 '}';
     }
 }

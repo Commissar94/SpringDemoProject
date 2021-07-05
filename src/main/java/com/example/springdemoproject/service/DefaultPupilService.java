@@ -47,7 +47,6 @@ public class DefaultPupilService implements PupilService {
         PupilData pupilData = new PupilData();
         pupilData.setId(pupil.getId());
         pupilData.setName(pupil.getName());
-        pupilData.setSchoolClass(pupil.getSchoolClass());
 
         return pupilData;
     }
@@ -55,7 +54,6 @@ public class DefaultPupilService implements PupilService {
     private Pupil populatePupilEntity(PupilData pupilData) {
         Pupil pupil = new Pupil();
         pupil.setName(pupilData.getName());
-        pupil.setSchoolClass(pupilData.getSchoolClass());
 
         return pupil;
     }

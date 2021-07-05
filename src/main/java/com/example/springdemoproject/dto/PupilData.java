@@ -4,7 +4,6 @@ public class PupilData {
 
     private long id;
     private String name;
-    private String schoolClass;
 
     public PupilData(){
     }
@@ -23,13 +22,5 @@ public class PupilData {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSchoolClass() {
-        return schoolClass;
-    }
-
-    public void setSchoolClass(String schoolClass) {
-        this.schoolClass = schoolClass;
     }
 }
