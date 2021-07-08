@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "classRoom")
+@Table(name = "class_room")
 public class ClassRoom {
 
     @Id
@@ -20,8 +20,8 @@ public class ClassRoom {
 
     @ManyToMany
     @JoinTable(
-            name = "pupilsInClassRoom",
-            joinColumns = @JoinColumn(name = "ClassRoomId"),
+            name = "pupils_in_class_room",
+            joinColumns = @JoinColumn(name = "class_room_id"),
             inverseJoinColumns = @JoinColumn(name = "pupil_id")
     )
     Set<Pupil> pupilsInClassRoom = new HashSet<>();

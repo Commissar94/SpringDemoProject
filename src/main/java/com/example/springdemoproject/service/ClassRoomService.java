@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface ClassRoomService {
 
-    ClassRoomData getClassRoomById(long schoolClassId);
+    ClassRoom getClassRoomById(long schoolClassId);
 
-    ClassRoomData createClassRoom(ClassRoomData classRoom);
+    ClassRoom createClassRoom(ClassRoom classRoom);
 
     List<ClassRoom> findByAttribute(String attribure);
 

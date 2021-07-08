@@ -6,8 +6,6 @@ import com.example.springdemoproject.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-
 @Service("teacherService")
 public class DefaultTeacherService implements TeacherService {
 
@@ -38,8 +36,8 @@ public class DefaultTeacherService implements TeacherService {
     }
 
     @Override
-    public TeacherData getTeacherById(long teacherId) {
-        return populateTeacherData(teacherRepository.findById(teacherId).orElseThrow(() -> new EntityNotFoundException("Teacher not found")));
+    public Teacher getTeacherById(long teacherId) {
+        return teacherRepository.findById(teacherId).get();
     }
 
     private TeacherData populateTeacherData(Teacher teacher) {

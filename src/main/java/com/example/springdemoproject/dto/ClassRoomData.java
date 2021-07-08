@@ -1,14 +1,12 @@
 package com.example.springdemoproject.dto;
 
-import com.example.springdemoproject.data.Teacher;
-
 public class ClassRoomData {
 
     private long id;
+    private String classRoom;
     private long teacher_id;
 
     private TeacherData teacher;
-    private String classRoom;
 
     public ClassRoomData(){
     }
@@ -35,5 +33,13 @@ public class ClassRoomData {
 
     public void setClassRoom(String classRoom) {
         this.classRoom = classRoom;
+    }
+
+    public long getTeacher_id() {
+        return teacher_id;
+    }
+
+    public void setTeacher_id(long teacher_id) {
+        this.teacher_id = teacher_id;
     }
 }

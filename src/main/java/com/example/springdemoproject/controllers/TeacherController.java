@@ -1,8 +1,7 @@
 package com.example.springdemoproject.controllers;
 
-import com.example.springdemoproject.dto.PupilData;
+import com.example.springdemoproject.data.Teacher;
 import com.example.springdemoproject.dto.TeacherData;
-import com.example.springdemoproject.service.PupilService;
 import com.example.springdemoproject.service.TeacherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,7 @@ public class TeacherController {
      */
 
     @GetMapping({"/{id}"})
-    public TeacherData getTeachersById(@PathVariable Long id) {
+    public Teacher getTeachersById(@PathVariable Long id) {
         return teacherService.getTeacherById(id);
     }
 
