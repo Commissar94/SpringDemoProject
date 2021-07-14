@@ -1,18 +1,39 @@
 package com.example.springdemoproject.controllers;
 
+import com.example.springdemoproject.data.Pupil;
 import com.example.springdemoproject.dto.PupilData;
+import com.example.springdemoproject.repository.PupilRepository;
 import com.example.springdemoproject.service.PupilService;
+import com.example.springdemoproject.specification.PupilSpecificationFindByName;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/pupils")
 public class PupilController {
 
-    @Resource(name = "pupilService")
+
+    @Autowired
     private PupilService pupilService;
+
+    @Autowired
+    private PupilRepository pupilRepository;
+
+    /**
+     * Method to find pupil by name
+     */
+
+    @GetMapping
+    public List<Pupil> findPupil(@RequestParam("name") String name) {
+
+        Specification<Pupil> spec = Specification.where(new PupilSpecificationFindByName(name));
+        return pupilRepository.findAll(spec);
+    }
+
 
     /**
      * Method to get the pupil.
@@ -38,7 +59,7 @@ public class PupilController {
      */
 
     @DeleteMapping
-   public void deletePupil(@RequestParam(value = "id") long id){
+    public void deletePupil(@RequestParam(value = "id") long id) {
         pupilService.deletePupil(id);
     }
 
@@ -48,7 +69,7 @@ public class PupilController {
 
     @PutMapping
     public PupilData updatePupil(@RequestBody PupilData pupilData, @RequestParam(value = "id") long id) throws Exception {
-        return pupilService.updatePupil(pupilData,id);
+        return pupilService.updatePupil(pupilData, id);
     }
 }
 
