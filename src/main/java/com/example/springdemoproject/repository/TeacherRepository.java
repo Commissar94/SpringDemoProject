@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface TeacherRepository extends JpaRepository<Teacher, Long>, JpaSpecificationExecutor<Teacher> {
 
-    @Query("FROM Teacher WHERE name = ?1")
+    @Query("FROM Teacher WHERE name LIKE %:name%")
     List<Teacher> findByNameQuery(String name);
 }

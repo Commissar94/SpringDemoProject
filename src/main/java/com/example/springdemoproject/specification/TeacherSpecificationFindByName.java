@@ -21,6 +21,6 @@ public class TeacherSpecificationFindByName implements Specification<Teacher> {
         if (name == null) {
             return cb.isTrue(cb.literal(true));
         }
-        return cb.equal(root.get("name"), this.name);
+        return cb.like(root.get("name"), this.name);
     }
 }

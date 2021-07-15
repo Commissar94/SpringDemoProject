@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface PupilRepository extends JpaRepository<Pupil, Long>, JpaSpecificationExecutor<Pupil> {
 
-    @Query("FROM Pupil WHERE name = ?1")
+    @Query("FROM Pupil WHERE name LIKE %:name%")
     List<Pupil> findByNameQuery(String name);
 }
