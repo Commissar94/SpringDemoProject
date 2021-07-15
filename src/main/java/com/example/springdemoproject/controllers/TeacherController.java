@@ -3,17 +3,38 @@ package com.example.springdemoproject.controllers;
 import com.example.springdemoproject.data.Teacher;
 import com.example.springdemoproject.dto.TeacherData;
 import com.example.springdemoproject.service.TeacherService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/teachers")
 public class TeacherController {
 
-    @Resource(name = "teacherService")
+    @Autowired
     private TeacherService teacherService;
+
+
+    /**
+     * Method to find teacher by query (HQL)
+     */
+    @GetMapping("/find")
+    public List<Teacher> findPupilQuery(@RequestParam String name) {
+        return teacherService.findByNameQuery(name);
+    }
+
+
+    /**
+     * Method to find teacher by name
+     */
+
+    @GetMapping
+    public List<Teacher> findPupil(@RequestParam("name") String name) {
+        return teacherService.findByNameSpecification(name);
+    }
+
 
     /**
      * Method to get the teacher.

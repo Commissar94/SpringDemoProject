@@ -2,11 +2,8 @@ package com.example.springdemoproject.controllers;
 
 import com.example.springdemoproject.data.Pupil;
 import com.example.springdemoproject.dto.PupilData;
-import com.example.springdemoproject.repository.PupilRepository;
 import com.example.springdemoproject.service.PupilService;
-import com.example.springdemoproject.specification.PupilSpecificationFindByName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +17,14 @@ public class PupilController {
     @Autowired
     private PupilService pupilService;
 
-    @Autowired
-    private PupilRepository pupilRepository;
+    /**
+     * Method to find pupil by query (HQL)
+     */
+    @GetMapping("/find")
+    public List<Pupil> findPupilQuery(@RequestParam String name) {
+        return pupilService.findByNameQuery(name);
+    }
+
 
     /**
      * Method to find pupil by name
@@ -29,11 +32,8 @@ public class PupilController {
 
     @GetMapping
     public List<Pupil> findPupil(@RequestParam("name") String name) {
-
-        Specification<Pupil> spec = Specification.where(new PupilSpecificationFindByName(name));
-        return pupilRepository.findAll(spec);
+        return pupilService.findByNameSpecification(name);
     }
-
 
     /**
      * Method to get the pupil.

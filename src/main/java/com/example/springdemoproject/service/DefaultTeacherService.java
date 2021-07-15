@@ -3,8 +3,13 @@ package com.example.springdemoproject.service;
 import com.example.springdemoproject.data.Teacher;
 import com.example.springdemoproject.dto.TeacherData;
 import com.example.springdemoproject.repository.TeacherRepository;
+import com.example.springdemoproject.specification.TeacherSpecificationFindByName;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import javax.swing.text.html.HTMLDocument;
+import java.util.List;
 
 @Service("teacherService")
 public class DefaultTeacherService implements TeacherService {
@@ -38,6 +43,17 @@ public class DefaultTeacherService implements TeacherService {
     @Override
     public Teacher getTeacherById(long teacherId) {
         return teacherRepository.findById(teacherId).get();
+    }
+
+    @Override
+    public List<Teacher> findByNameQuery(String name) {
+        return teacherRepository.findByNameQuery(name);
+    }
+
+    @Override
+    public List<Teacher> findByNameSpecification(String name) {
+        Specification<Teacher> spec = Specification.where(new TeacherSpecificationFindByName(name));
+        return teacherRepository.findAll(spec);
     }
 
     private TeacherData populateTeacherData(Teacher teacher) {
