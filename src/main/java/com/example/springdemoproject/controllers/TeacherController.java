@@ -21,7 +21,7 @@ public class TeacherController {
      * Method to find teacher by query (HQL)
      */
     @GetMapping("/find")
-    public List<Teacher> findPupilQuery(@RequestParam String name) {
+    public List<Teacher> findTeacherQuery(@RequestParam String name) {
         return teacherService.findByNameQuery(name);
     }
 
@@ -31,7 +31,7 @@ public class TeacherController {
      */
 
     @GetMapping
-    public List<Teacher> findPupil(@RequestParam("name") String name) {
+    public List<Teacher> findTeacher(@RequestParam("name") String name) {
         return teacherService.findByNameSpecification(name);
     }
 
