@@ -57,7 +57,7 @@ public class PupilTests {
     @Order(2)
     public void DeletePupilTest() throws Exception {
 
-        String id = "17";
+        String id = "18";
 
         mockMvc.perform(delete("/api/pupils")
                 .param("id", id))

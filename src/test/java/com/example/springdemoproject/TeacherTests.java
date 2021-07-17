@@ -54,7 +54,7 @@ public class TeacherTests {
     @Test
     @Order(2)
     public void DeleteTeacherTest() throws Exception {
-        String id = "3";
+        String id = "7";
 
         mockMvc.perform(delete("/api/teachers")
                 .param("id", id))
