@@ -42,7 +42,8 @@ public class DefaultTeacherService implements TeacherService {
 
     @Override
     public Teacher getTeacherById(long teacherId) {
-        return teacherRepository.findById(teacherId).get();
+      //  return teacherRepository.findById(teacherId).get();
+        return teacherRepository.findById(teacherId).orElse(null);
     }
 
     @Override

@@ -2,9 +2,12 @@ package com.example.springdemoproject.controllers;
 
 import com.example.springdemoproject.data.ClassRoom;
 import com.example.springdemoproject.data.Teacher;
+import com.example.springdemoproject.dto.ClassRoomData;
+import com.example.springdemoproject.repository.ClassRoomRepository;
 import com.example.springdemoproject.service.ClassRoomService;
 import com.example.springdemoproject.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +21,18 @@ public class SchoolClassController {
 
     @Autowired
     private TeacherService teacherService;
+
+    @Autowired
+    private ClassRoomRepository classRoomRepository;
+
+    /**
+     * Method to create classRoom.
+     */
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ClassRoom createClassRoom(@RequestBody ClassRoom classRoom) {
+        return classRoomRepository.save(classRoom);
+    }
 
     /**
      * Method to get all classRooms.
