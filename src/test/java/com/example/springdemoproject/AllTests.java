@@ -100,10 +100,37 @@ public class AllTests {
 
 
     /**
-     * Test get of Pupil (HQL)
+     * Test create 2 Pupils and get one of them by name Pupil (HQL)
      */
     @Test
     public void GetPupilHQLTest() throws Exception {
+
+        Pupil pupil = new Pupil();
+        pupil.setName("Vladimir");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(pupil);
+
+        mockMvc.perform(post("/api/pupils")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        Pupil pupil2 = new Pupil();
+        pupil2.setName("Dmitriy");
+        ObjectMapper mapper2 = new ObjectMapper();
+        mapper2.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow2 = mapper.writer().withDefaultPrettyPrinter();
+        String json2 = ow2.writeValueAsString(pupil2);
+
+        mockMvc.perform(post("/api/pupils")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json2))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
 
         String name = "Vladimir";
         this.mockMvc.perform(get("/api/pupils/find")
@@ -113,12 +140,39 @@ public class AllTests {
     }
 
     /**
-     * Test get of Pupil by name (Specification)
+     * Test create 2 Pupils and get one of them by name (Specification)
      */
     @Test
     public void GetPupilSpecificationTest() throws Exception {
 
-        String name = "Vladimir";
+        Pupil pupil = new Pupil();
+        pupil.setName("Vladimir");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(pupil);
+
+        mockMvc.perform(post("/api/pupils")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        Pupil pupil2 = new Pupil();
+        pupil2.setName("Dmitriy");
+        ObjectMapper mapper2 = new ObjectMapper();
+        mapper2.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow2 = mapper.writer().withDefaultPrettyPrinter();
+        String json2 = ow2.writeValueAsString(pupil2);
+
+        mockMvc.perform(post("/api/pupils")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json2))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+
+        String name = "Dmitriy";
         this.mockMvc.perform(get("/api/pupils")
                 .param("name", name))
                 .andDo(print())
@@ -133,6 +187,36 @@ public class AllTests {
     public void GetTeacherHQLTest() throws Exception {
 
         String name = "Valeriy";
+
+        Teacher teacher = new Teacher();
+        teacher.setName("Valeriy");
+        teacher.setSpecialization("TestSpec");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(teacher);
+
+        mockMvc.perform(post("/api/teachers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        Teacher teacher2 = new Teacher();
+        teacher2.setName("Andrey");
+        teacher2.setSpecialization("TestSpec");
+        ObjectMapper mapper2 = new ObjectMapper();
+        mapper2.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow2 = mapper2.writer().withDefaultPrettyPrinter();
+        String json2 = ow2.writeValueAsString(teacher2);
+
+        mockMvc.perform(post("/api/teachers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json2))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+
         this.mockMvc.perform(get("/api/teachers/find")
                 .param("name", name))
                 .andDo(print())
@@ -146,6 +230,35 @@ public class AllTests {
     public void GetTeacherSpecificationTest() throws Exception {
 
         String name = "Valeriy";
+
+        Teacher teacher = new Teacher();
+        teacher.setName("Valeriy");
+        teacher.setSpecialization("TestSpec");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(teacher);
+
+        mockMvc.perform(post("/api/teachers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        Teacher teacher2 = new Teacher();
+        teacher2.setName("Andrey");
+        teacher2.setSpecialization("TestSpec");
+        ObjectMapper mapper2 = new ObjectMapper();
+        mapper2.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow2 = mapper2.writer().withDefaultPrettyPrinter();
+        String json2 = ow2.writeValueAsString(teacher2);
+
+        mockMvc.perform(post("/api/teachers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json2))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
         this.mockMvc.perform(get("/api/teachers")
                 .param("name", name))
                 .andDo(print())
@@ -198,23 +311,66 @@ public class AllTests {
 
 
     /**
-     * Test get of all ClassRooms
+     * Test create 2 ClassRooms and get all of these ClassRooms
      */
     @Test
     public void GetClassRoomsTest() throws Exception {
+
+        ClassRoom classRoom = new ClassRoom();
+        classRoom.setClassRoom("6");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(classRoom);
+
+        mockMvc.perform(post("/api/classRoom")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        ClassRoom classRoom2 = new ClassRoom();
+        classRoom.setClassRoom("7");
+        ObjectMapper mapper2 = new ObjectMapper();
+        mapper2.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow2 = mapper2.writer().withDefaultPrettyPrinter();
+        String json2 = ow2.writeValueAsString(classRoom2);
+
+        mockMvc.perform(post("/api/classRoom")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json2))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+
         this.mockMvc.perform(get("/api/classRoom"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     /**
-     * Test get ClassRoom of 5"A" by param
+     * Test create and get ClassRoom of 5"A" by param
      */
     @Test
     public void GetClassRoomByClassNameParamTest() throws Exception {
-        String classRoom = "5\"a\"";
+        String classRoomName = "5\"a\"";
+
+        ClassRoom classRoom = new ClassRoom();
+        classRoom.setClassRoom("5\"a\"");
+        ObjectMapper mapper2 = new ObjectMapper();
+        mapper2.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow2 = mapper2.writer().withDefaultPrettyPrinter();
+        String json2 = ow2.writeValueAsString(classRoom);
+
+        mockMvc.perform(post("/api/classRoom")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json2))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+
         mockMvc.perform(get("/api/classRoom/find")
-                .param("classRoom", classRoom)
+                .param("classRoom", classRoomName)
         ).andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentType("application/json"));
