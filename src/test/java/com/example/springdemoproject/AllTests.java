@@ -60,7 +60,7 @@ public class AllTests {
      * Test create, update and delete of Pupil
      */
     @Test
-    public void CreateUpdateDeletePupilTest() throws Exception {
+    public void createUpdateDeletePupilTest() throws Exception {
 
         String id = "1";
 
@@ -103,7 +103,7 @@ public class AllTests {
      * Test create 2 Pupils and get one of them by name Pupil (HQL)
      */
     @Test
-    public void GetPupilHQLTest() throws Exception {
+    public void getPupilHQLTest() throws Exception {
 
         Pupil pupil = new Pupil();
         pupil.setName("Vladimir");
@@ -143,7 +143,7 @@ public class AllTests {
      * Test create 2 Pupils and get one of them by name (Specification)
      */
     @Test
-    public void GetPupilSpecificationTest() throws Exception {
+    public void getPupilSpecificationTest() throws Exception {
 
         Pupil pupil = new Pupil();
         pupil.setName("Vladimir");
@@ -184,7 +184,7 @@ public class AllTests {
      * Test get of Teacher (HQL)
      */
     @Test
-    public void GetTeacherHQLTest() throws Exception {
+    public void getTeacherHQLTest() throws Exception {
 
         String name = "Valeriy";
 
@@ -227,7 +227,7 @@ public class AllTests {
      * Test get of Teacher by name (Specification)
      */
     @Test
-    public void GetTeacherSpecificationTest() throws Exception {
+    public void getTeacherSpecificationTest() throws Exception {
 
         String name = "Valeriy";
 
@@ -270,7 +270,7 @@ public class AllTests {
      * Test create, update and delete of Teacher
      */
     @Test
-    public void CreateUpdateDeleteTeacherTest() throws Exception {
+    public void createUpdateDeleteTeacherTest() throws Exception {
 
         String id = "1";
 
@@ -314,7 +314,7 @@ public class AllTests {
      * Test create 2 ClassRooms and get all of these ClassRooms
      */
     @Test
-    public void GetClassRoomsTest() throws Exception {
+    public void getClassRoomsTest() throws Exception {
 
         ClassRoom classRoom = new ClassRoom();
         classRoom.setClassRoom("6");
@@ -352,7 +352,7 @@ public class AllTests {
      * Test create and get ClassRoom of 5"A" by param
      */
     @Test
-    public void GetClassRoomByClassNameParamTest() throws Exception {
+    public void getClassRoomByClassNameParamTest() throws Exception {
         String classRoomName = "5\"a\"";
 
         ClassRoom classRoom = new ClassRoom();
@@ -380,7 +380,7 @@ public class AllTests {
      * Test Create ClassRoom and assign teacher to the ClassRoom
      */
     @Test
-    public void CreateClassRoomAndAssignTeacherToClassRoomTest() throws Exception {
+    public void createClassRoomAndAssignTeacherToClassRoomTest() throws Exception {
 
 
         Teacher teacher = new Teacher();

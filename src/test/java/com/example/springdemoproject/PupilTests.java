@@ -4,36 +4,62 @@ import com.example.springdemoproject.data.Pupil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static org.hamcrest.core.StringContains.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@ContextConfiguration(initializers = {PupilTests.Initializer.class})
+@Testcontainers
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @AutoConfigureMockMvc
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PupilTests {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @Container
+    public static MySQLContainer mySQLContainer = new MySQLContainer()
+            .withDatabaseName("school")
+            .withUsername("root")
+            .withPassword("1234");
+
+    static class Initializer
+            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+
+
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                    "spring.datasource.url=" + mySQLContainer.getJdbcUrl(),
+                    "spring.datasource.username=" + mySQLContainer.getUsername(),
+                    "spring.datasource.password=" + mySQLContainer.getPassword()
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
+    }
+
+
     /**
-     * Test creation of Pupil
+     * Test create, update and delete of Pupil
      */
     @Test
-    @Order(1)
-    public void NewPupilTest() throws Exception {
+    public void createUpdateDeletePupilTest() throws Exception {
+
+        String id = "1";
 
         Pupil pupil = new Pupil();
         pupil.setName("TestPupil");
@@ -48,16 +74,20 @@ public class PupilTests {
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-    }
+        Pupil pupilForUpdate = new Pupil();
+        pupilForUpdate.setName("UpdatedTestPupil");
+        ObjectMapper mapper2 = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow2 = mapper2.writer().withDefaultPrettyPrinter();
+        String json2 = ow2.writeValueAsString(pupilForUpdate);
 
-    /**
-     * Test delete of Pupil
-     */
-    @Test
-    @Order(2)
-    public void DeletePupilTest() throws Exception {
+        this.mockMvc.perform(put("/api/pupils")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json2)
+                .param("id", id))
+                .andDo(print())
+                .andExpect(status().isOk());
 
-        String id = "18";
 
         mockMvc.perform(delete("/api/pupils")
                 .param("id", id))
@@ -67,10 +97,37 @@ public class PupilTests {
 
 
     /**
-     * Test get of Pupil (HQL)
+     * Test create 2 Pupils and get one of them by name Pupil (HQL)
      */
     @Test
-    public void GetPupilHQLTest() throws Exception {
+    public void getPupilHQLTest() throws Exception {
+
+        Pupil pupil = new Pupil();
+        pupil.setName("Vladimir");
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(pupil);
+
+        mockMvc.perform(post("/api/pupils")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        Pupil pupil2 = new Pupil();
+        pupil2.setName("Dmitriy");
+        ObjectMapper mapper2 = new ObjectMapper();
+        mapper2.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow2 = mapper.writer().withDefaultPrettyPrinter();
+        String json2 = ow2.writeValueAsString(pupil2);
+
+        mockMvc.perform(post("/api/pupils")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json2))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
 
         String name = "Vladimir";
         this.mockMvc.perform(get("/api/pupils/find")
@@ -80,39 +137,42 @@ public class PupilTests {
     }
 
     /**
-     * Test get of Pupil by name (Specification)
+     * Test create 2 Pupils and get one of them by name (Specification)
      */
     @Test
-    public void GetPupilSpecificationTest() throws Exception {
+    public void getPupilSpecificationTest() throws Exception {
 
-        String name = "Vladimir";
-        this.mockMvc.perform(get("/api/pupils")
-                .param("name", name))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-
-    /**
-     * Test update of Pupil
-     */
-    @Test
-    public void UpdatePupilTest() throws Exception {
-
-        String id = "3";
         Pupil pupil = new Pupil();
-        pupil.setName("TestPupil");
+        pupil.setName("Vladimir");
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(pupil);
 
-        this.mockMvc.perform(put("/api/pupils")
+        mockMvc.perform(post("/api/pupils")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json)
-                .param("id", id))
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        Pupil pupil2 = new Pupil();
+        pupil2.setName("Dmitriy");
+        ObjectMapper mapper2 = new ObjectMapper();
+        mapper2.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow2 = mapper.writer().withDefaultPrettyPrinter();
+        String json2 = ow2.writeValueAsString(pupil2);
+
+        mockMvc.perform(post("/api/pupils")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json2))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+
+        String name = "Dmitriy";
+        this.mockMvc.perform(get("/api/pupils")
+                .param("name", name))
                 .andDo(print())
                 .andExpect(status().isOk());
-
     }
 }
